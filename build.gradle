@@ -22,8 +22,12 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc:2.7.5'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// mysql
+	implementation 'mysql:mysql-connector-java:8.0.25'
 
 	// lombok
 	compileOnly 'org.projectlombok:lombok'
