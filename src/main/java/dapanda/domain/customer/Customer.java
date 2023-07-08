@@ -1,10 +1,10 @@
 package dapanda.domain.customer;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
-@RequiredArgsConstructor
 public class Customer {
 
     private final long id;
@@ -12,6 +12,36 @@ public class Customer {
     private final String email;
     private final String password;
     private final String tel;
-    private final String createdAt;
-    private final String updatedAt;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime lastModified;
+
+    private Customer(
+            final long id,
+            final String name,
+            final String email,
+            final String password,
+            final String tel,
+            final LocalDateTime createdAt,
+            final LocalDateTime lastModified
+    ) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.tel = tel;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+    }
+
+    public static Customer of(
+            final long id,
+            final String name,
+            final String email,
+            final String password,
+            final String tel,
+            final LocalDateTime createdAt,
+            final LocalDateTime lastModified
+    ) {
+        return new Customer(id, name, email, password, tel, createdAt, lastModified);
+    }
 }
