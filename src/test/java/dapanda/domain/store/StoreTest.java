@@ -18,7 +18,7 @@ class StoreTest {
                 STORE.getId(),
                 STORE.getStoreName(),
                 STORE.getCategory(),
-                STORE.getCeoId(),
+                STORE.getCustomerId(),
                 STORE.getCreatedAt(),
                 STORE.getLastModified()
         ));
@@ -31,7 +31,7 @@ class StoreTest {
                 STORE.getId(),
                 null,
                 STORE.getCategory(),
-                STORE.getCeoId(),
+                STORE.getCustomerId(),
                 STORE.getCreatedAt(),
                 STORE.getLastModified()
         ))
@@ -46,7 +46,7 @@ class StoreTest {
                 STORE.getId(),
                 STORE.getStoreName(),
                 null,
-                STORE.getCeoId(),
+                STORE.getCustomerId(),
                 STORE.getCreatedAt(),
                 STORE.getLastModified()
         ))
