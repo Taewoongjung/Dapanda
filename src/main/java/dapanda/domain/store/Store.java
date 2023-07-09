@@ -50,6 +50,6 @@ public class Store {
         require(o -> category == null, category, INVALID_STORE_CATEGORY);
         require(o -> ceoId == null, ceoId, INVALID_STORE_CEO_ID);
 
-        return Store.of(id, storeName, category, ceoId, createdAt, lastModified);
+        return new Store(id, storeName, category, ceoId, createdAt, lastModified);
     }
 }
