@@ -1,11 +1,13 @@
 package dapanda.domain.store;
 
 import dapanda.domain.customer.Customer;
+import dapanda.domain.store.product.Product;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static dapanda.adapter.common.ErrorType.*;
 import static dapanda.adapter.util.ObjectCheck.require;
@@ -19,6 +21,7 @@ public class Store {
     private String storeName;
     private String category;
     private Customer customerId;
+    private List<Product> productList;
     private LocalDateTime createdAt;
     private LocalDateTime lastModified;
 
@@ -26,14 +29,14 @@ public class Store {
             final long id,
             final String storeName,
             final String category,
-            final Customer ceoId,
+            final Customer customerId,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
         this.id = id;
         this.storeName = storeName;
         this.category = category;
-        this.customerId = ceoId;
+        this.customerId = customerId;
         this.createdAt = createdAt;
         this.lastModified = lastModified;
     }
