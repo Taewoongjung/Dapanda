@@ -1,6 +1,7 @@
 package dapanda.adapter.outbound.jpa.customer;
 
 import dapanda.adapter.outbound.jpa.BaseEntity;
+import dapanda.adapter.outbound.jpa.store.StoreEntity;
 import dapanda.domain.customer.Customer;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -9,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Entity
 @Getter
+@Entity
 @Table(name = "customer")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomerEntity extends BaseEntity {
@@ -22,6 +23,10 @@ public class CustomerEntity extends BaseEntity {
     private String email;
     private String password;
     private String tel;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private StoreEntity store;
 
     private CustomerEntity(
             final long id,
