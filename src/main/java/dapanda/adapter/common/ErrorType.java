@@ -15,7 +15,9 @@ public enum ErrorType {
     INVALID_STORE_CATEGORY(2002, "가게 카테고리는 필수값 입니다."),
     INVALID_STORE_CEO_ID(2003, "가게 사장님 ID는 필수값 입니다."),
 
-    INVALID_PRODUCT_NAME(3001, "상품 이름은 필수값 입니다.")
+    INVALID_PRODUCT_NAME(3001, "상품 이름은 필수값 입니다."),
+    INVALID_PRODUCT_AMOUNT(3002, "상품 수량은 필수값 입니다."),
+    INVALID_PRODUCT_PRICE(3003, "상품 가격은 필수값 입니다.")
     ;
 
     private final int code;
