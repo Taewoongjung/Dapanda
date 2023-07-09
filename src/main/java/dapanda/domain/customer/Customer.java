@@ -1,19 +1,26 @@
 package dapanda.domain.customer;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+import static dapanda.adapter.common.ErrorType.*;
+import static dapanda.adapter.util.ObjectCheck.require;
+
 @Getter
+@ToString
+@RequiredArgsConstructor
 public class Customer {
 
-    private final long id;
-    private final String name;
-    private final String email;
-    private final String password;
-    private final String tel;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime lastModified;
+    private long id;
+    private String name;
+    private String email;
+    private String password;
+    private String tel;
+    private LocalDateTime createdAt;
+    private LocalDateTime lastModified;
 
     private Customer(
             final long id,
@@ -42,6 +49,10 @@ public class Customer {
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
+        require(o -> name == null, name, INVALID_CUSTOMER_NAME);
+        require(o -> email == null, email, INVALID_CUSTOMER_EMAIL);
+        require(o -> tel == null, tel, INVALID_CUSTOMER_TEL);
+
         return new Customer(id, name, email, password, tel, createdAt, lastModified);
     }
 }
