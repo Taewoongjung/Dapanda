@@ -28,6 +28,8 @@ public class FoodEntity extends ProductEntity {
             final boolean isUse,
             final String description
     ) {
+        super(id, name, brandName, amount);
+
         this.price = price;
         this.isUse = isUse;
         this.description = description;
