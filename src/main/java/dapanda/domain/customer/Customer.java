@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 import static dapanda.adapter.common.ErrorType.*;
-import static dapanda.adapter.util.ObjectCheck.require;
+import static dapanda.adapter.util.Check.require;
 
 @Getter
 @ToString
