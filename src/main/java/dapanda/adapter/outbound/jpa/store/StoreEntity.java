@@ -2,7 +2,6 @@ package dapanda.adapter.outbound.jpa.store;
 
 import dapanda.adapter.outbound.jpa.BaseEntity;
 import dapanda.adapter.outbound.jpa.customer.CustomerEntity;
-import dapanda.domain.store.Store;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -48,12 +47,4 @@ public class StoreEntity extends BaseEntity {
     ) {
         return new StoreEntity(id, storeName, category);
     }
-
-//    public static Store toStorePojo(final StoreEntity entity) {
-//        return Store.of(
-//                entity.getId(),
-//                entity.storeName,
-//                entity.category
-//        )
-//    }
 }
