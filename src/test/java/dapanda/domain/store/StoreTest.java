@@ -18,7 +18,6 @@ class StoreTest {
                 STORE.getId(),
                 STORE.getStoreName(),
                 STORE.getCategory(),
-                STORE.getCustomerId(),
                 STORE.getCreatedAt(),
                 STORE.getLastModified()
         ));
@@ -31,7 +30,6 @@ class StoreTest {
                 STORE.getId(),
                 null,
                 STORE.getCategory(),
-                STORE.getCustomerId(),
                 STORE.getCreatedAt(),
                 STORE.getLastModified()
         ))
@@ -46,27 +44,10 @@ class StoreTest {
                 STORE.getId(),
                 STORE.getStoreName(),
                 null,
-                STORE.getCustomerId(),
                 STORE.getCreatedAt(),
                 STORE.getLastModified()
         ))
                 .isInstanceOf(InvalidInputException.class)
                 .hasMessage("가게 카테고리는 필수값 입니다.");
     }
-
-    @Test
-    @DisplayName("필수값 가게 사장님 ID가 없으면 생성할 수 없다.")
-    void test4() {
-        assertThatThrownBy(() -> Store.of(
-                STORE.getId(),
-                STORE.getStoreName(),
-                STORE.getCategory(),
-                null,
-                STORE.getCreatedAt(),
-                STORE.getLastModified()
-        ))
-                .isInstanceOf(InvalidInputException.class)
-                .hasMessage("가게 사장님 ID는 필수값 입니다.");
-    }
-
 }
