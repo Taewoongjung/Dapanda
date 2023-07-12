@@ -37,7 +37,7 @@ public class Food extends Product {
         this.description = description;
     }
 
-    public static Food of(
+    private static Food of(
             final long id,
             final String name,
             final String brandName,
