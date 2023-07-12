@@ -7,7 +7,7 @@ import dapanda.domain.customer.Customer;
 import dapanda.domain.store.Store;
 import dapanda.domain.store.product.food.Food;
 
-public class Converter {
+public class ObjectConverter {
 
     public static Customer toCustomerPojo(final CustomerEntity entity) {
         return Customer.of(
