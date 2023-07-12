@@ -18,4 +18,32 @@ public class FoodEntity extends ProductEntity {
     private int price;
     private boolean isUse;
     private String description;
+
+    private FoodEntity(
+            final long id,
+            final String name,
+            final String brandName,
+            final int amount,
+            final int price,
+            final boolean isUse,
+            final String description
+    ) {
+        super(id, name, brandName, amount);
+
+        this.price = price;
+        this.isUse = isUse;
+        this.description = description;
+    }
+
+    public static FoodEntity of(
+            final long id,
+            final String name,
+            final String brandName,
+            final int amount,
+            final int price,
+            final boolean isUse,
+            final String description
+    ) {
+        return new FoodEntity(id, name, brandName, amount, price, isUse, description);
+    }
 }

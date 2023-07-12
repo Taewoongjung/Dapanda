@@ -4,15 +4,14 @@ import dapanda.domain.store.Store;
 
 import java.time.LocalDateTime;
 
-import static customer.CustomerFixture.CUSTOMER;
+import static dapanda.domain.store.ProductCategoryType.FOOD;
 
 public class StoreFixture {
 
     public static Store STORE = Store.of(
             1L,
             "맛나김밥",
-            "음식점",
-            CUSTOMER,
+            FOOD,
             LocalDateTime.now(),
             LocalDateTime.now()
     );

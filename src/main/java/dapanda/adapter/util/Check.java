@@ -5,7 +5,7 @@ import dapanda.adapter.common.InvalidInputException;
 
 import java.util.function.Predicate;
 
-public class ObjectCheck {
+public class Check {
 
     public static <T> void require(final Predicate<T> predicate, final T target, final ErrorType errorType) {
         if (predicate.test(target)) {
