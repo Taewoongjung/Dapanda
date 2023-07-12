@@ -2,7 +2,7 @@ package dapanda.adapter.outbound.jpa.store;
 
 import dapanda.adapter.outbound.jpa.BaseEntity;
 import dapanda.adapter.outbound.jpa.customer.CustomerEntity;
-import dapanda.domain.store.CategoryType;
+import dapanda.domain.store.ProductCategoryType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,12 +28,12 @@ public class StoreEntity extends BaseEntity {
     private String storeName;
 
     @Enumerated(value = EnumType.STRING)
-    private CategoryType category;
+    private ProductCategoryType category;
 
     private StoreEntity(
             final long id,
             final String storeName,
-            final CategoryType category
+            final ProductCategoryType category
     ) {
         super(LocalDateTime.now(), LocalDateTime.now());
 
@@ -45,7 +45,7 @@ public class StoreEntity extends BaseEntity {
     public static StoreEntity of(
             final long id,
             final String storeName,
-            final CategoryType category
+            final ProductCategoryType category
     ) {
         return new StoreEntity(id, storeName, category);
     }

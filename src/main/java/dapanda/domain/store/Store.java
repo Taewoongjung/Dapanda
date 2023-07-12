@@ -18,7 +18,7 @@ public class Store {
 
     private long id;
     private String storeName;
-    private CategoryType category;
+    private ProductCategoryType category;
     private List<Customer> customers;
     private LocalDateTime createdAt;
     private LocalDateTime lastModified;
@@ -26,7 +26,7 @@ public class Store {
     private Store(
             final long id,
             final String storeName,
-            final CategoryType category,
+            final ProductCategoryType category,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
@@ -40,7 +40,7 @@ public class Store {
     public static Store of(
             final long id,
             final String storeName,
-            final CategoryType category,
+            final ProductCategoryType category,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
