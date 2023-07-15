@@ -23,13 +23,8 @@ public class ProductRepositoryAdapter implements ProductRepository {
     private final ProductJpaRepository jpaRepository;
 
     @Override
-    public <T extends Product> T save(T product) {
-        ProductEntity entity;
-        if (CLOTH.equals(product.getStore().getCategory())) {
-            entity = toClothEntity((Cloth) product);
-        } else {
-            entity = toFoodEntity((Food) product);
-        }
+    public Product save(Product product) {
+        ProductEntity entity = toProductEntity(product);
         jpaRepository.save(entity);
         return toProductPojo(entity);
     }
