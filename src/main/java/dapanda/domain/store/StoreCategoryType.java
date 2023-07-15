@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum ProductCategoryType {
+public enum StoreCategoryType {
 
     FOOD("food"),
     CLOTH("cloth")

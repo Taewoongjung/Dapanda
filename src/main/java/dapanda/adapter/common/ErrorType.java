@@ -17,7 +17,10 @@ public enum ErrorType {
 
     INVALID_PRODUCT_NAME(3001, "상품 이름은 필수값 입니다."),
     INVALID_PRODUCT_AMOUNT(3002, "상품 수량은 필수값 입니다."),
-    INVALID_PRODUCT_PRICE(3003, "상품 가격은 필수값 입니다.")
+    INVALID_PRODUCT_PRICE(3003, "상품 가격은 필수값 입니다."),
+
+    NOT_FOUND_STORE_INFO(4001, "가게 정보가 없습니다."),
+    NOT_FOUND_PRODUCT_INFO(4002, "상품 정보가 없습니다."),
     ;
 
     private final int code;

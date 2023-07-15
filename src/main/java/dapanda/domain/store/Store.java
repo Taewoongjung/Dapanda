@@ -1,6 +1,7 @@
 package dapanda.domain.store;
 
 import dapanda.domain.customer.Customer;
+import dapanda.domain.store.product.Product;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -18,15 +19,16 @@ public class Store {
 
     private long id;
     private String storeName;
-    private ProductCategoryType category;
+    private StoreCategoryType category;
     private List<Customer> customers;
+    private List<Product> products;
     private LocalDateTime createdAt;
     private LocalDateTime lastModified;
 
     private Store(
             final long id,
             final String storeName,
-            final ProductCategoryType category,
+            final StoreCategoryType category,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
@@ -40,7 +42,7 @@ public class Store {
     public static Store of(
             final long id,
             final String storeName,
-            final ProductCategoryType category,
+            final StoreCategoryType category,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {

@@ -1,23 +1,38 @@
 package dapanda.adapter.outbound.jpa.store.product.cloth;
 
+import dapanda.adapter.outbound.jpa.BaseEntity;
 import dapanda.adapter.outbound.jpa.store.product.ProductEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Getter
-@ToString
 @Entity
 @Table(name = "cloth")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClothEntity extends ProductEntity {
+public class ClothEntity extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    private String name;
+
+    private String brandName;
+
+    private int amount;
 
     private int price;
+
     private boolean isUse;
+
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private ProductEntity product;
 
     private ClothEntity (
             final long id,
@@ -28,8 +43,12 @@ public class ClothEntity extends ProductEntity {
             final boolean isUse,
             final String description
     ) {
-        super(id, name, brandName, amount);
+        super(LocalDateTime.now(), LocalDateTime.now());
 
+        this.id = id;
+        this.name = name;
+        this.brandName = brandName;
+        this.amount = amount;
         this.price = price;
         this.isUse = isUse;
         this.description = description;

@@ -4,7 +4,7 @@ import dapanda.domain.store.Store;
 
 import java.time.LocalDateTime;
 
-import static dapanda.domain.store.ProductCategoryType.FOOD;
+import static dapanda.domain.store.StoreCategoryType.FOOD;
 
 public class StoreFixture {
 

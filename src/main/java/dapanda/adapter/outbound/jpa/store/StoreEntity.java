@@ -2,7 +2,9 @@ package dapanda.adapter.outbound.jpa.store;
 
 import dapanda.adapter.outbound.jpa.BaseEntity;
 import dapanda.adapter.outbound.jpa.customer.CustomerEntity;
-import dapanda.domain.store.ProductCategoryType;
+import dapanda.adapter.outbound.jpa.order.OrderEntity;
+import dapanda.adapter.outbound.jpa.store.product.ProductEntity;
+import dapanda.domain.store.StoreCategoryType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,15 +27,21 @@ public class StoreEntity extends BaseEntity {
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustomerEntity> customers = new ArrayList<>();
 
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductEntity> products = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderEntity> order = new ArrayList<>();
+
     private String storeName;
 
     @Enumerated(value = EnumType.STRING)
-    private ProductCategoryType category;
+    private StoreCategoryType category;
 
     private StoreEntity(
             final long id,
             final String storeName,
-            final ProductCategoryType category
+            final StoreCategoryType category
     ) {
         super(LocalDateTime.now(), LocalDateTime.now());
 
@@ -45,7 +53,7 @@ public class StoreEntity extends BaseEntity {
     public static StoreEntity of(
             final long id,
             final String storeName,
-            final ProductCategoryType category
+            final StoreCategoryType category
     ) {
         return new StoreEntity(id, storeName, category);
     }
