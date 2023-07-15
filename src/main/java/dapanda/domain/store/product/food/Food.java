@@ -1,9 +1,6 @@
 package dapanda.domain.store.product.food;
 
-import dapanda.domain.store.Store;
-import dapanda.domain.store.product.Product;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -11,30 +8,38 @@ import static dapanda.adapter.common.ErrorType.*;
 import static dapanda.adapter.util.Check.require;
 
 @Getter
-@RequiredArgsConstructor
-public class Food extends Product {
+public class Food {
 
-    private int price;
-    private boolean isUse;
-    private String description;
+    private final long id;
+    private final String name;
+    private final String brandName;
+    private final int amount;
+    private final int price;
+    private final boolean isUse;
+    private final String description;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime lastModified;
 
     private Food(
             final long id,
             final String name,
             final String brandName,
             final int amount,
-            final Store store,
             final int price,
             final boolean isUse,
             final String description,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
-        super(id, name, brandName, amount, store, createdAt, lastModified);
-
+        this.id = id;
+        this.name = name;
+        this.brandName = brandName;
+        this.amount = amount;
         this.price = price;
         this.isUse = isUse;
         this.description = description;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
     }
 
     public static Food of(
@@ -42,7 +47,6 @@ public class Food extends Product {
             final String name,
             final String brandName,
             final Integer amount,
-            final Store store,
             final Integer price,
             final boolean isUse,
             final String description,
@@ -58,7 +62,6 @@ public class Food extends Product {
                 name,
                 brandName,
                 amount,
-                store,
                 price,
                 isUse,
                 description,
