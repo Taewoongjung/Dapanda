@@ -2,6 +2,7 @@ package dapanda.adapter.outbound.jpa.store;
 
 import dapanda.adapter.outbound.jpa.BaseEntity;
 import dapanda.adapter.outbound.jpa.customer.CustomerEntity;
+import dapanda.adapter.outbound.jpa.store.product.ProductEntity;
 import dapanda.domain.store.StoreCategoryType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,6 +25,9 @@ public class StoreEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CustomerEntity> customers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductEntity> products = new ArrayList<>();
 
     private String storeName;
 

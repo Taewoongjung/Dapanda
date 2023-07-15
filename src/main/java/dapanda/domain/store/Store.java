@@ -1,6 +1,7 @@
 package dapanda.domain.store;
 
 import dapanda.domain.customer.Customer;
+import dapanda.domain.store.product.Product;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -20,6 +21,7 @@ public class Store {
     private String storeName;
     private StoreCategoryType category;
     private List<Customer> customers;
+    private List<Product> products;
     private LocalDateTime createdAt;
     private LocalDateTime lastModified;
 
