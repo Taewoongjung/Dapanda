@@ -1,7 +1,6 @@
 package dapanda.domain.customer;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
@@ -11,16 +10,15 @@ import static dapanda.adapter.util.Check.require;
 
 @Getter
 @ToString
-@RequiredArgsConstructor
 public class Customer {
 
-    private long id;
-    private String name;
-    private String email;
-    private String password;
-    private String tel;
-    private LocalDateTime createdAt;
-    private LocalDateTime lastModified;
+    private final long id;
+    private final String name;
+    private final String email;
+    private final String password;
+    private final String tel;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime lastModified;
 
     private Customer(
             final long id,

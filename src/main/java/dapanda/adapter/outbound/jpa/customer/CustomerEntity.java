@@ -24,7 +24,6 @@ public class CustomerEntity extends BaseEntity {
     private String tel;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreEntity store;
 
     private CustomerEntity(
