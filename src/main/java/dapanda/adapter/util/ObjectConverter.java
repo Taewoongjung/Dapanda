@@ -1,21 +1,21 @@
 package dapanda.adapter.util;
 
 import dapanda.adapter.outbound.jpa.customer.CustomerEntity;
+import dapanda.adapter.outbound.jpa.order.OrderEntity;
 import dapanda.adapter.outbound.jpa.store.StoreEntity;
 import dapanda.adapter.outbound.jpa.store.product.ProductEntity;
 import dapanda.adapter.outbound.jpa.store.product.cloth.ClothEntity;
 import dapanda.adapter.outbound.jpa.store.product.food.FoodEntity;
 import dapanda.domain.customer.Customer;
+import dapanda.domain.order.Order;
 import dapanda.domain.store.Store;
 import dapanda.domain.store.product.Product;
 import dapanda.domain.store.product.cloth.Cloth;
 import dapanda.domain.store.product.food.Food;
 
-import static dapanda.domain.store.StoreCategoryType.CLOTH;
-import static dapanda.domain.store.StoreCategoryType.FOOD;
-
 public class ObjectConverter {
 
+    // Customer
     public static Customer toCustomerPojo(final CustomerEntity entity) {
         return Customer.of(
                 entity.getId(),
@@ -37,25 +37,13 @@ public class ObjectConverter {
         );
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T extends Product> T toProductPojo(ProductEntity entity) {
-        if (CLOTH.equals(entity.getStore().getCategory())) {
-            return (T) toClothPojo((ClothEntity) entity);
-
-        } else if (FOOD.equals(entity.getStore().getCategory())) {
-            return (T) toFoodPojo((FoodEntity) entity);
-
-        } else {
-            throw new IllegalArgumentException("Unsupported entity type: " + entity.getClass());
-        }
-    }
-    public static Product toFoodPojo(final FoodEntity entity) {
+    // Food
+    public static Food toFoodPojo(final FoodEntity entity) {
         return Food.of(
                 entity.getId(),
                 entity.getName(),
                 entity.getBrandName(),
                 entity.getAmount(),
-                toStorePojo(entity.getStore()),
                 entity.getPrice(),
                 entity.isUse(),
                 entity.getDescription(),
@@ -63,10 +51,10 @@ public class ObjectConverter {
                 entity.getLastModified()
         );
     }
-    public static ProductEntity toFoodEntity(final Food pojo) {
+    public static FoodEntity toFoodEntity(final Food pojo) {
         return FoodEntity.of(
                 pojo.getId(),
-                pojo.getName(),
+                pojo.getBrandName(),
                 pojo.getBrandName(),
                 pojo.getAmount(),
                 pojo.getPrice(),
@@ -75,13 +63,14 @@ public class ObjectConverter {
         );
     }
 
-    public static Product toClothPojo(final ClothEntity entity) {
-        return Food.of(
+
+    // Cloth
+    public static Cloth toClothPojo(final ClothEntity entity) {
+        return Cloth.of(
                 entity.getId(),
                 entity.getName(),
                 entity.getBrandName(),
                 entity.getAmount(),
-                toStorePojo(entity.getStore()),
                 entity.getPrice(),
                 entity.isUse(),
                 entity.getDescription(),
@@ -89,7 +78,7 @@ public class ObjectConverter {
                 entity.getLastModified()
         );
     }
-    public static ProductEntity toClothEntity(final Cloth pojo) {
+    public static ClothEntity toClothEntity(final Cloth pojo) {
         return ClothEntity.of(
                 pojo.getId(),
                 pojo.getName(),
@@ -102,6 +91,31 @@ public class ObjectConverter {
     }
 
 
+    // Product
+    public static ProductEntity toProductEntity(final Product pojo) {
+        ProductEntity entity = ProductEntity.of(
+                pojo.getId(),
+                toStoreEntity(pojo.getStore())
+        );
+
+        entity.setFoodsEntityList(pojo.getFoods());
+        entity.setClothsEntityList(pojo.getCloths());
+
+        return entity;
+    }
+    public static Product toProductPojo(final ProductEntity entity) {
+        Product pojo = Product.of(
+                entity.getId(),
+                toStorePojo(entity.getStore()),
+                entity.getCreatedAt(),
+                entity.getLastModified()
+        );
+
+        return pojo;
+    }
+
+
+    // Store
     public static StoreEntity toStoreEntity(final Store pojo) {
         return StoreEntity.of(
                 pojo.getId(),
@@ -114,6 +128,28 @@ public class ObjectConverter {
                 entity.getId(),
                 entity.getStoreName(),
                 entity.getCategory(),
+                entity.getCreatedAt(),
+                entity.getLastModified()
+        );
+    }
+
+
+    // Order
+    public static OrderEntity toOrderEntity(final Order pojo) {
+        return OrderEntity.of(
+                pojo.getId(),
+                toStoreEntity(pojo.getStore()),
+                toProductEntity(pojo.getProduct()),
+                toCustomerEntity(pojo.getCustomer())
+        );
+    }
+    public static Order toOrderPojo(final OrderEntity entity) {
+        return Order.of(
+                entity.getId(),
+                toStorePojo(entity.getStore()),
+                toProductPojo(entity.getProduct()),
+                toCustomerPojo(entity.getCustomer()),
+                entity.getAmount(),
                 entity.getCreatedAt(),
                 entity.getLastModified()
         );
