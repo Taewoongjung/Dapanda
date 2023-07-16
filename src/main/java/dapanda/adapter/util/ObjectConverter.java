@@ -13,6 +13,8 @@ import dapanda.domain.store.product.Product;
 import dapanda.domain.store.product.cloth.Cloth;
 import dapanda.domain.store.product.food.Food;
 
+import java.util.List;
+
 public class ObjectConverter {
 
     // Customer
@@ -104,33 +106,48 @@ public class ObjectConverter {
         return entity;
     }
     public static Product toProductPojo(final ProductEntity entity) {
-        Product pojo = Product.of(
+        return Product.of(
                 entity.getId(),
                 toStorePojo(entity.getStore()),
                 entity.getCreatedAt(),
                 entity.getLastModified()
         );
-
-        return pojo;
     }
 
 
     // Store
     public static StoreEntity toStoreEntity(final Store pojo) {
-        return StoreEntity.of(
+        StoreEntity entity = StoreEntity.of(
                 pojo.getId(),
                 pojo.getStoreName(),
                 pojo.getCategory()
         );
+
+        entity.setCustomersPojoListToEntity(pojo.getCustomers());
+        entity.setProductsPojoListToEntity(pojo.getProducts());
+        entity.setOrdersPojoListToEntity(pojo.getOrders());
+
+        return entity;
     }
     public static Store toStorePojo(final StoreEntity entity) {
-        return Store.of(
+        Store pojo = Store.of(
                 entity.getId(),
                 entity.getStoreName(),
                 entity.getCategory(),
                 entity.getCreatedAt(),
                 entity.getLastModified()
         );
+
+        entity.setOrdersEntityListToPojo(pojo.getOrders());
+//        pojo.setOrders(orderPojoList);
+//
+        entity.setCustomersEntityListToPojo(pojo.getCustomers());
+//        pojo.setCustomers(customerPojoList);
+//
+        entity.setProductsEntityListToPojo(pojo.getProducts());
+//        pojo.setProducts(productPojoList);
+
+        return pojo;
     }
 
 
@@ -140,7 +157,8 @@ public class ObjectConverter {
                 pojo.getId(),
                 toStoreEntity(pojo.getStore()),
                 toProductEntity(pojo.getProduct()),
-                toCustomerEntity(pojo.getCustomer())
+                toCustomerEntity(pojo.getCustomer()),
+                pojo.getAmount()
         );
     }
     public static Order toOrderPojo(final OrderEntity entity) {
@@ -149,9 +167,7 @@ public class ObjectConverter {
                 toStorePojo(entity.getStore()),
                 toProductPojo(entity.getProduct()),
                 toCustomerPojo(entity.getCustomer()),
-                entity.getAmount(),
-                entity.getCreatedAt(),
-                entity.getLastModified()
+                entity.getAmount()
         );
     }
 }
