@@ -54,6 +54,9 @@ public class ProductEntity extends BaseEntity {
     }
 
     public void setFoodsEntityList(final List<Food> pojo) {
+
+        if (pojo == null) return;  // 에러 던지기
+
         pojo.forEach(pojoDomain -> {
             foods.add(
                     toFoodEntity(Food.of(
@@ -72,6 +75,9 @@ public class ProductEntity extends BaseEntity {
     }
 
     public void setClothsEntityList(final List<Cloth> pojo) {
+
+        if (pojo == null) return;  // 에러 던지기
+
         pojo.forEach(pojoDomain -> {
             cloths.add(
                     toClothEntity(Cloth.of(
