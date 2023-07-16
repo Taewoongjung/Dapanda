@@ -8,10 +8,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
-@Table(name = "order")
+@ToString(exclude = {"store", "product"})
+@Table(name = "`order`")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderEntity extends BaseEntity {
 
@@ -20,37 +24,39 @@ public class OrderEntity extends BaseEntity {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-//    @JoinColumn(name = "store_id", referencedColumnName = "id")
     private StoreEntity store;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-//    @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-//    @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private CustomerEntity customer;
 
-    private int amount;
+    private Integer amount;
 
     private OrderEntity(
             final long id,
             final StoreEntity store,
             final ProductEntity product,
-            final CustomerEntity customer
+            final CustomerEntity customer,
+            final Integer amount
     ) {
+        super(LocalDateTime.now(), LocalDateTime.now());
+
         this.id = id;
         this.store = store;
         this.product = product;
         this.customer = customer;
+        this.amount = amount;
     }
 
     public static OrderEntity of(
             final long id,
             final StoreEntity store,
             final ProductEntity product,
-            final CustomerEntity customer
+            final CustomerEntity customer,
+            final Integer amount
     ) {
-        return new OrderEntity(id, store, product, customer);
+        return new OrderEntity(id, store, product, customer, amount);
     }
 }

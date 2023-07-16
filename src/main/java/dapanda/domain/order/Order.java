@@ -4,36 +4,41 @@ import dapanda.domain.customer.Customer;
 import dapanda.domain.store.Store;
 import dapanda.domain.store.product.Product;
 import lombok.Getter;
-
-import java.time.LocalDateTime;
+import lombok.ToString;
 
 @Getter
 public class Order {
 
-    private final long id;
-    private final Store store;
-    private final Product product;
-    private final Customer customer;
-    private final int amount;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime lastModified;
+    private long id;
+    private Store store;
+    private Product product;
+    private Customer customer;
+    private int amount;
 
     private Order(
             final long id,
             final Store store,
             final Product product,
             final Customer customer,
-            final int amount,
-            final LocalDateTime createdAt,
-            final LocalDateTime lastModified
+            final int amount
     ) {
         this.id = id;
         this.store = store;
         this.product = product;
         this.customer = customer;
         this.amount = amount;
-        this.createdAt = createdAt;
-        this.lastModified = lastModified;
+    }
+
+    private Order(
+            final Store store,
+            final Product product,
+            final Customer customer,
+            final int amount
+    ) {
+        this.store = store;
+        this.product = product;
+        this.customer = customer;
+        this.amount = amount;
     }
 
     public static Order of(
@@ -41,10 +46,17 @@ public class Order {
             final Store storeId,
             final Product productId,
             final Customer customerId,
-            final int amount,
-            final LocalDateTime createdAt,
-            final LocalDateTime lastModified
+            final int amount
     ) {
-        return new Order(id, storeId, productId, customerId, amount, createdAt, lastModified);
+        return new Order(id, storeId, productId, customerId, amount);
+    }
+
+    public static Order of(
+            final Store storeId,
+            final Product productId,
+            final Customer customerId,
+            final int amount
+    ) {
+        return new Order(storeId, productId, customerId, amount);
     }
 }
