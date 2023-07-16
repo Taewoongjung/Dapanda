@@ -20,6 +20,22 @@ public class Product {
     private Product(
             final long id,
             final Store store,
+            final List<Food> foods,
+            final List<Cloth> cloths,
+            final LocalDateTime createdAt,
+            final LocalDateTime lastModified
+    ) {
+        this.id = id;
+        this.store = store;
+        this.foods = foods;
+        this.cloths = cloths;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+    }
+
+    private Product(
+            final long id,
+            final Store store,
             final LocalDateTime createdAt,
             final LocalDateTime lastModified
     ) {
@@ -36,5 +52,16 @@ public class Product {
             final LocalDateTime lastModified
     ) {
         return new Product(id, store, createdAt, lastModified);
+    }
+
+    public static Product of(
+            final long id,
+            final Store store,
+            final List<Food> foods,
+            final List<Cloth> cloths,
+            final LocalDateTime createdAt,
+            final LocalDateTime lastModified
+    ) {
+        return new Product(id, store, foods, cloths, createdAt, lastModified);
     }
 }
