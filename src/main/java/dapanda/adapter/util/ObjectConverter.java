@@ -13,6 +13,7 @@ import dapanda.domain.store.product.Product;
 import dapanda.domain.store.product.cloth.Cloth;
 import dapanda.domain.store.product.food.Food;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ObjectConverter {
@@ -139,13 +140,13 @@ public class ObjectConverter {
         );
 
         entity.setOrdersEntityListToPojo(pojo.getOrders());
-//        pojo.setOrders(orderPojoList);
-//
+        pojo.setOrders(toOrderPojoList(entity.getOrders()));
+
         entity.setCustomersEntityListToPojo(pojo.getCustomers());
-//        pojo.setCustomers(customerPojoList);
-//
+        pojo.setCustomers(toCustomerPojoList(entity.getCustomers()));
+
         entity.setProductsEntityListToPojo(pojo.getProducts());
-//        pojo.setProducts(productPojoList);
+        pojo.setProducts(toProductPojoList(entity.getProducts()));
 
         return pojo;
     }
@@ -169,5 +170,118 @@ public class ObjectConverter {
                 toCustomerPojo(entity.getCustomer()),
                 entity.getAmount()
         );
+    }
+
+    public static List<Order> toOrderPojoList(final List<OrderEntity> entities) {
+        List<Order> orders = new ArrayList<>();
+
+        entities.forEach(
+                o -> orders.add(Order.of(
+                    o.getId(),
+                    (Store.of(
+                            o.getStore().getId(),
+                            o.getStore().getStoreName(),
+                            o.getStore().getCategory(),
+                            o.getStore().getCreatedAt(),
+                            o.getStore().getLastModified()
+                    )),
+                    (Product.of(
+                            o.getProduct().getId(),
+                            Store.of(
+                                    o.getProduct().getStore().getId(),
+                                    o.getProduct().getStore().getStoreName(),
+                                    o.getProduct().getStore().getCategory(),
+                                    o.getProduct().getStore().getCreatedAt(),
+                                    o.getProduct().getStore().getLastModified()
+                            ),
+                            toFoodPojoList(o.getProduct().getFoods()),
+                            toClothPojoList(o.getProduct().getCloths()),
+                            o.getProduct().getCreatedAt(),
+                            o.getProduct().getLastModified()
+                    )),
+                toCustomerPojo(o.getCustomer()),
+                    o.getAmount()
+            ))
+        );
+
+        return orders;
+    }
+
+    public static List<Customer> toCustomerPojoList(final List<CustomerEntity> entities) {
+
+        List<Customer> customers = new ArrayList<>();
+
+        entities.forEach(
+                o -> customers.add(Customer.of(
+                        o.getId(),
+                        o.getName(),
+                        o.getEmail(),
+                        o.getPassword(),
+                        o.getTel(),
+                        o.getCreatedAt(),
+                        o.getLastModified()
+                )));
+
+        return customers;
+    }
+
+    public static List<Product> toProductPojoList(final List<ProductEntity> entities) {
+
+        List<Product> products = new ArrayList<>();
+
+        entities.forEach(
+                o -> products.add(Product.of(
+                        o.getId(),
+                        null,
+                        toFoodPojoList(o.getFoods()),
+                        toClothPojoList(o.getCloths()),
+                        o.getCreatedAt(),
+                        o.getLastModified()
+                ))
+        );
+
+        return products;
+    }
+
+    private static List<Food> toFoodPojoList(final List<FoodEntity> entities) {
+
+        List<Food> foods = new ArrayList<>();
+
+        entities.forEach(
+                o -> foods.add(Food.of(
+                        o.getId(),
+                        o.getName(),
+                        o.getBrandName(),
+                        o.getAmount(),
+                        o.getPrice(),
+                        o.isUse(),
+                        o.getDescription(),
+                        o.getCreatedAt(),
+                        o.getLastModified()
+                ))
+        );
+
+        return foods;
+    }
+
+    private static List<Cloth> toClothPojoList(final List<ClothEntity> entities) {
+
+        List<Cloth> cloths = new ArrayList<>();
+
+        entities.forEach(
+                o -> cloths.add(Cloth.of(
+                        o.getId(),
+                        o.getName(),
+                        o.getBrandName(),
+                        o.getAmount(),
+                        o.getPrice(),
+                        o.isUse(),
+                        o.getDescription(),
+                        o.getCreatedAt(),
+                        o.getLastModified()
+                ))
+        );
+
+        return cloths;
     }
 }
