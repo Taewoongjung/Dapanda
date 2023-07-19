@@ -4,8 +4,6 @@ import dapanda.domain.store.product.cloth.Cloth;
 
 import java.time.LocalDateTime;
 
-import static store.StoreFixture.STORE;
-
 public class ClothFixture {
 
     public static Cloth CLOTH_NEW = Cloth.of(
