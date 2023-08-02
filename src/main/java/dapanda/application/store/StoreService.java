@@ -2,11 +2,13 @@ package dapanda.application.store;
 
 import dapanda.adapter.common.NotFoundException;
 import dapanda.application.store.dto.StoreServiceDto;
+import dapanda.domain.order.Order;
 import dapanda.domain.store.Store;
 import dapanda.domain.store.StoreRepository;
 import dapanda.domain.store.product.Product;
 import dapanda.domain.store.product.ProductRepository;
-import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,7 @@ import static dapanda.adapter.common.ErrorType.NOT_FOUND_PRODUCT_INFO;
 import static dapanda.adapter.common.ErrorType.NOT_FOUND_STORE_INFO;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class StoreService {
 
@@ -47,5 +50,14 @@ public class StoreService {
             throw new NotFoundException(NOT_FOUND_PRODUCT_INFO);
         }
         return product;
+    }
+
+    @Transactional(readOnly = true)
+    public Order findOrder(final long storeId, final long orderId) {
+
+        log.info("{} {}", storeId, orderId);
+
+        Store store = getStoreInfoById(storeId);
+        return store.getOrderById(orderId);
     }
 }
