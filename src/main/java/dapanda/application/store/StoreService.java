@@ -34,13 +34,9 @@ public class StoreService {
 
     }
 
-    private Optional<Store> getStoreInfoById(final long storeId) {
-        Optional<Store> store = storeRepository.findById(storeId);
-
-        if (store == null) {
-            throw new NotFoundException(NOT_FOUND_STORE_INFO);
-        }
-        return store;
+    private Store getStoreInfoById(final long storeId) {
+        return storeRepository.findById(storeId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_STORE_INFO));
     }
 
     private Optional<Product> getProductInfoById(final long productId) {
