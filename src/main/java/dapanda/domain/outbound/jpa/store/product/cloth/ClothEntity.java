@@ -31,7 +31,7 @@ public class ClothEntity extends BaseEntity {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToOne(mappedBy = "cloth")
     private ProductEntity product;
 
     private ClothEntity (

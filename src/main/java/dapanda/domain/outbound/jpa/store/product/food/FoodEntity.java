@@ -31,7 +31,7 @@ public class FoodEntity extends BaseEntity {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToOne(mappedBy = "food")
     private ProductEntity product;
 
     private FoodEntity(

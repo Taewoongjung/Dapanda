@@ -13,27 +13,27 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "delivery_order")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OrderEntity extends BaseEntity {
+public class DeliveryOrderEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "store_id", referencedColumnName = "id", nullable = false)
     private StoreEntity store;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private ProductEntity product;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
     private CustomerEntity customer;
 
     private int amount;
 
-    private OrderEntity(
+    private DeliveryOrderEntity(
             final long id,
             final StoreEntity store,
             final ProductEntity product,
@@ -45,12 +45,12 @@ public class OrderEntity extends BaseEntity {
         this.customer = customer;
     }
 
-    public static OrderEntity of(
+    public static DeliveryOrderEntity of(
             final long id,
             final StoreEntity store,
             final ProductEntity product,
             final CustomerEntity customer
     ) {
-        return new OrderEntity(id, store, product, customer);
+        return new DeliveryOrderEntity(id, store, product, customer);
     }
 }

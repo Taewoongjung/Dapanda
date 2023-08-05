@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -23,8 +24,8 @@ public class CustomerEntity extends BaseEntity {
     private String password;
     private String tel;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    private StoreEntity store;
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private List<StoreEntity> store;
 
     private CustomerEntity(
             final long id,

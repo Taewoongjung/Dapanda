@@ -2,7 +2,7 @@ package dapanda.domain.outbound.jpa.store;
 
 import dapanda.domain.outbound.jpa.BaseEntity;
 import dapanda.domain.outbound.jpa.customer.CustomerEntity;
-import dapanda.domain.outbound.jpa.order.OrderEntity;
+import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.store.product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -23,14 +23,15 @@ public class StoreEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<CustomerEntity> customers = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductEntity> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<OrderEntity> order = new ArrayList<>();
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DeliveryOrderEntity> order = new ArrayList<>();
 
     private String storeName;
 

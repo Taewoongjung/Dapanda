@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity
@@ -25,11 +24,11 @@ public class ProductEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private StoreEntity store;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<FoodEntity> foods;
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    private FoodEntity food;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<ClothEntity> cloths;
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    private ClothEntity cloth;
 
     private ProductEntity(
             final long id,

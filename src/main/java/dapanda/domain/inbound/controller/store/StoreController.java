@@ -1,7 +1,7 @@
 package dapanda.domain.inbound.controller.store;
 
 import dapanda.domain.inbound.controller.request.WebRequest;
-import dapanda.domain.outbound.jpa.order.OrderEntity;
+import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import dapanda.application.store.StoreService;
 import dapanda.application.store.dto.StoreServiceDto;
@@ -34,7 +34,7 @@ public class StoreController {
     }
 
     @GetMapping(value = "/stores/{storeId}/orders/{orderId}")
-    public Optional<OrderEntity> getOrder(
+    public Optional<DeliveryOrderEntity> getOrder(
             @PathVariable final long storeId,
             @PathVariable final long orderId
     ) {

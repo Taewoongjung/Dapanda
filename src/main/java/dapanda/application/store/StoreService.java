@@ -1,8 +1,8 @@
 package dapanda.application.store;
 
 import dapanda.domain.common.NotFoundException;
-import dapanda.domain.outbound.jpa.order.OrderEntity;
-import dapanda.domain.outbound.jpa.order.repository.OrderJpaRepository;
+import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
+import dapanda.domain.outbound.jpa.order.repository.DeliveryOrderJpaRepository;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import dapanda.domain.outbound.jpa.store.repository.StoreJpaRepository;
 import dapanda.application.store.dto.StoreServiceDto;
@@ -21,7 +21,7 @@ import static dapanda.domain.common.ErrorType.NOT_FOUND_STORE_INFO;
 public class StoreService {
 
     private final StoreJpaRepository storeRepository;
-    private final OrderJpaRepository orderRepository;
+    private final DeliveryOrderJpaRepository orderRepository;
 
     @Transactional
     public void order(final StoreServiceDto.OrderDto dto) {
@@ -35,7 +35,7 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<OrderEntity> findOrder(final long storeId, final long orderId) {
+    public Optional<DeliveryOrderEntity> findOrder(final long storeId, final long orderId) {
 
         log.info("{} {}", storeId, orderId);
 
