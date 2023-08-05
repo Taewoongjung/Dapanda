@@ -10,6 +10,7 @@ CREATE TABLE `cloth`
     `description`   VARCHAR(50)                                   COMMENT '옷 상품 설명',
     `created_at`    DATETIME(6)         NOT NULL   DEFAULT CURRENT_TIMESTAMP(6),
     `last_modified` DATETIME(6)         NOT NULL   DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
-    PRIMARY KEY (`id`)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (product_id) REFERENCES product (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '의류 상품 정보';

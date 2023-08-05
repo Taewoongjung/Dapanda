@@ -7,6 +7,6 @@ CREATE TABLE `product`
     `created_at`    DATETIME(6)         NOT NULL   DEFAULT CURRENT_TIMESTAMP(6),
     `last_modified` DATETIME(6)         NOT NULL   DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`store_id`) REFERENCES store (id)
+    FOREIGN KEY (store_id) REFERENCES store (id)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 COMMENT '가게에서 소유하고 있는 상품 정보';
