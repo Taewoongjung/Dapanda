@@ -7,6 +7,8 @@ import dapanda.application.store.StoreService;
 import dapanda.application.store.dto.StoreServiceDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -44,11 +46,9 @@ public class StoreController {
     }
 
     @GetMapping(value = "/stores/{storeId}")
-    public Optional<StoreEntity> getStore(
-            @PathVariable final long storeId
-    ) {
-        log.info("{} {}", storeId);
+    public ResponseEntity<StoreServiceDto.FindStoreDto> getStore(@PathVariable final long storeId) {
+        log.info("{}", storeId);
 
-        return storeService.findStore(storeId);
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.findStore(storeId));
     }
 }

@@ -1,6 +1,7 @@
 package dapanda.application.store;
 
 import dapanda.domain.common.NotFoundException;
+import dapanda.domain.outbound.jpa.customer.CustomerEntity;
 import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.order.repository.DeliveryOrderJpaRepository;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
@@ -43,14 +44,24 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<StoreEntity> findStore(final long storeId) {
+    public StoreServiceDto.FindStoreDto findStore(final long storeId) {
 
-        log.info("{} {}", storeId);
+        log.info("{}", storeId);
 
         Optional<StoreEntity> res = storeRepository.findById(storeId);
 
-        System.out.println("@@@ = "+res.get().getCustomer().getId());
+        CustomerEntity customer = getCustomerEntity(res.get().getCustomer());
 
-        return res;
+        return new StoreServiceDto.FindStoreDto(customer, res.get().getProducts());
+    }
+
+    private CustomerEntity getCustomerEntity(CustomerEntity customer) {
+        return CustomerEntity.of(
+                customer.getId(),
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPassword(),
+                customer.getTel()
+        );
     }
 }
