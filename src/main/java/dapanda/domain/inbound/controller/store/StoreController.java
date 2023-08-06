@@ -36,13 +36,13 @@ public class StoreController {
     }
 
     @GetMapping(value = "/stores/{storeId}/orders/{orderId}")
-    public Optional<DeliveryOrderEntity> getOrder(
+    public ResponseEntity<StoreServiceDto.FindOrderDto> getOrder(
             @PathVariable final long storeId,
             @PathVariable final long orderId
     ) {
         log.info("{} {}", storeId, orderId);
 
-        return storeService.findOrder(storeId, orderId);
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.findOrder(storeId, orderId));
     }
 
     @GetMapping(value = "/stores/{storeId}")

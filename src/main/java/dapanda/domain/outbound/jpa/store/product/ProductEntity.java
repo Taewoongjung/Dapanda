@@ -45,18 +45,21 @@ public class ProductEntity extends BaseEntity {
 
     private ProductEntity(
             final long id,
-            final StoreEntity store
+            final FoodEntity food,
+            final ClothEntity cloth
     ) {
         super(LocalDateTime.now(), LocalDateTime.now());
 
         this.id = id;
-        this.store = store;
+        this.food = food;
+        this.cloth = cloth;
     }
 
     public static ProductEntity of(
             final long id,
-            final StoreEntity store
+            final FoodEntity food,
+            final ClothEntity cloth
     ) {
-        return new ProductEntity(id, store);
+        return new ProductEntity(id, food, cloth);
     }
 }
