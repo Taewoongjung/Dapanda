@@ -47,6 +47,10 @@ public class StoreService {
 
         log.info("{} {}", storeId);
 
-        return storeRepository.findById(storeId);
+        Optional<StoreEntity> res = storeRepository.findById(storeId);
+
+        System.out.println("@@@ = "+res.get().getCustomer().getId());
+
+        return res;
     }
 }

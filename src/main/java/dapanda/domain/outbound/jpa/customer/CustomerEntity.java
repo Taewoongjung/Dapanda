@@ -1,6 +1,10 @@
 package dapanda.domain.outbound.jpa.customer;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dapanda.domain.outbound.jpa.BaseEntity;
+import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -24,6 +28,7 @@ public class CustomerEntity extends BaseEntity {
     private String password;
     private String tel;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private List<StoreEntity> store;
 

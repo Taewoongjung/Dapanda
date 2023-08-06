@@ -1,5 +1,6 @@
 package dapanda.domain.outbound.jpa.store.product.cloth;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import dapanda.domain.outbound.jpa.BaseEntity;
 import dapanda.domain.outbound.jpa.store.product.ProductEntity;
 import jakarta.persistence.*;
@@ -31,7 +32,8 @@ public class ClothEntity extends BaseEntity {
 
     private String description;
 
-    @OneToOne(mappedBy = "cloth")
+    @JsonBackReference
+    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
     private ProductEntity product;
 
     private ClothEntity (

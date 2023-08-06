@@ -1,8 +1,12 @@
 package dapanda.domain.outbound.jpa.store;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dapanda.domain.outbound.jpa.BaseEntity;
 import dapanda.domain.outbound.jpa.customer.CustomerEntity;
 import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
+import dapanda.domain.outbound.jpa.store.categoryenum.StoreCategoryType;
 import dapanda.domain.outbound.jpa.store.product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -17,25 +21,26 @@ import java.util.List;
 @Entity
 @Table(name = "store")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Convert(converter = StoreCategoryTypeConverter.class, attributeName = "category")
 public class StoreEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private CustomerEntity customer;
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<ProductEntity> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<DeliveryOrderEntity> order = new ArrayList<>();
 
     private String storeName;
 
-    @Enumerated(value = EnumType.STRING)
     private StoreCategoryType category;
 
     private StoreEntity(

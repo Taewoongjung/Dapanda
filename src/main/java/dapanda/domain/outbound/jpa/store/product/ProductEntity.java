@@ -1,6 +1,10 @@
 package dapanda.domain.outbound.jpa.store.product;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dapanda.domain.outbound.jpa.BaseEntity;
+import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import dapanda.domain.outbound.jpa.store.product.cloth.ClothEntity;
 import dapanda.domain.outbound.jpa.store.product.food.FoodEntity;
@@ -8,8 +12,10 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -21,14 +27,21 @@ public class ProductEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     private StoreEntity store;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = true)
     private FoodEntity food;
 
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    @OneToOne(mappedBy = "product", fetch = FetchType.LAZY, orphanRemoval = true)
     private ClothEntity cloth;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private List<DeliveryOrderEntity> deliveryOrders;
 
     private ProductEntity(
             final long id,
