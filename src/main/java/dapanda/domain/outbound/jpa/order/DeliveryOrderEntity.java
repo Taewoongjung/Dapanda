@@ -2,6 +2,7 @@ package dapanda.domain.outbound.jpa.order;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import dapanda.domain.outbound.jpa.BaseEntity;
+import dapanda.domain.outbound.jpa.customer.CustomerEntity;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import dapanda.domain.outbound.jpa.store.product.ProductEntity;
 import jakarta.persistence.*;
@@ -28,6 +29,12 @@ public class DeliveryOrderEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private ProductEntity product;
+
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private CustomerEntity customer;
+
 
     private int amount;
 

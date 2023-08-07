@@ -30,7 +30,11 @@ public class CustomerEntity extends BaseEntity {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    private List<StoreEntity> store;
+    private List<StoreEntity> stores;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private List<DeliveryOrderEntity> orders;
 
     private CustomerEntity(
             final long id,
