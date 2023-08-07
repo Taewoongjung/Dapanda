@@ -1,7 +1,7 @@
 package dapanda.domain.util;
 
-import dapanda.domain.common.ErrorType;
-import dapanda.domain.common.InvalidInputException;
+import dapanda.domain.common.error.ErrorType;
+import dapanda.domain.common.error.InvalidInputException;
 
 import java.util.function.Predicate;
 
