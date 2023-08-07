@@ -38,15 +38,15 @@ public class StoreController {
     @GetMapping(value = "/stores/{storeId}/orders/{orderId}")
     public ResponseEntity<StoreServiceDto.FindOrderDto> getOrder(
             @PathVariable final long storeId,
-            @PathVariable final long orderId
-    ) {
+            @PathVariable final long orderId) throws Exception{
         log.info("{} {}", storeId, orderId);
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.findOrder(storeId, orderId));
     }
 
     @GetMapping(value = "/stores/{storeId}")
-    public ResponseEntity<StoreServiceDto.FindStoreDto> getStore(@PathVariable final long storeId) throws Exception {
+    public ResponseEntity<StoreServiceDto.FindStoreDto> getStore(
+            @PathVariable final long storeId) throws Exception {
         log.info("{}", storeId);
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.findStore(storeId));

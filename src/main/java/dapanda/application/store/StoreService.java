@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static dapanda.domain.common.error.ErrorType.NOT_FOUND_ORDER_INFO;
 import static dapanda.domain.common.error.ErrorType.NOT_FOUND_STORE_INFO;
 
 @Service
@@ -42,17 +43,40 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public StoreServiceDto.FindOrderDto findOrder(final long storeId, final long orderId) {
+    public StoreServiceDto.FindOrderDto findOrder(final long storeId, final long orderId) throws Exception{
 
         log.info("{} {}", storeId, orderId);
 
         Optional<DeliveryOrderEntity> order = orderRepository.findById(orderId);
 
-        List<ProductEntity> products = order.get().getStore().getProducts().stream()
-                .map(o -> ProductEntity.of(o.getId(), getFood(o.getFood()), getCloth(o.getCloth())))
-                .collect(Collectors.toList());
+        if (order.isEmpty()) {
+            throw new InvalidInputException(NOT_FOUND_ORDER_INFO);
+        }
 
-        return new StoreServiceDto.FindOrderDto(getStore(order.get().getStore()), products); //
+        ProductEntity product = getProductListFromDeliveryOrder(order);
+        StoreEntity store = getStore(order.get().getStore());
+        CustomerEntity customer = getCustomerFromDeliveryOrder(order);
+
+        return new StoreServiceDto.FindOrderDto(store, product, customer);
+    }
+
+    private ProductEntity getProductListFromDeliveryOrder(final Optional<DeliveryOrderEntity> order) {
+
+        if (order.isPresent()) {
+            ProductEntity product = order.get().getProduct();
+            return ProductEntity.of(product.getId(), product.getFood(), product.getCloth());
+        } else {
+            throw new InvalidInputException(NOT_FOUND_ORDER_INFO);
+        }
+    }
+    private CustomerEntity getCustomerFromDeliveryOrder(final Optional<DeliveryOrderEntity> order) {
+
+        if (order.isPresent()) {
+            CustomerEntity customer = order.get().getCustomer();
+            return CustomerEntity.of(customer.getId(), customer.getName(), customer.getEmail(), customer.getPassword(), customer.getTel());
+        } else {
+            throw new InvalidInputException(NOT_FOUND_ORDER_INFO);
+        }
     }
     private FoodEntity getFood(final FoodEntity food) {
         return FoodEntity.of(
@@ -78,12 +102,11 @@ public class StoreService {
     }
 
     private StoreEntity getStore(final StoreEntity store) {
-        StoreEntity storeEntity = StoreEntity.of(
+        return StoreEntity.of(
                 store.getId(),
                 store.getStoreName(),
                 store.getCategory()
         );
-        return storeEntity;
     }
 
     @Transactional(readOnly = true)
@@ -93,17 +116,24 @@ public class StoreService {
 
         Optional<StoreEntity> store = storeRepository.findById(storeId);
 
-        CustomerEntity customer = getCustomerFromStore(store);
+        if (store.isEmpty()) {
+            throw new InvalidInputException(NOT_FOUND_STORE_INFO);
+        }
 
-        return new StoreServiceDto.FindStoreDto(customer, store.get().getProducts());
+        CustomerEntity customer = getCustomerFromStore(store);
+        StoreEntity storeEntity = store.get();
+        return new StoreServiceDto.FindStoreDto(
+                storeEntity.getId(),
+                storeEntity.getStoreName(),
+                storeEntity.getCategory(),
+                customer,
+                storeEntity.getProducts());
     }
 
     private CustomerEntity getCustomerFromStore(final Optional<StoreEntity> store) {
         CustomerEntity customer = null;
         if (store.isPresent()) {
             customer = mapCustomerEntity(store.get().getCustomer());
-        } else {
-            throw new InvalidInputException(NOT_FOUND_STORE_INFO);
         }
 
         return customer;
