@@ -16,9 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static dapanda.domain.common.error.ErrorType.NOT_FOUND_ORDER_INFO;
 import static dapanda.domain.common.error.ErrorType.NOT_FOUND_STORE_INFO;
@@ -32,9 +30,11 @@ public class StoreService {
     private final DeliveryOrderJpaRepository orderRepository;
 
     @Transactional
-    public void order(final StoreServiceDto.OrderDto dto) {
+    public void order(final StoreServiceDto.OrderDto dto) throws Exception {
 
         StoreEntity store = getStoreInfoById(dto.storeId());
+
+
     }
 
     private StoreEntity getStoreInfoById(final long storeId) {
@@ -43,7 +43,7 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public StoreServiceDto.FindOrderDto findOrder(final long storeId, final long orderId) throws Exception{
+    public StoreServiceDto.FindOrderResponseDto findOrder(final long storeId, final long orderId) throws Exception{
 
         log.info("{} {}", storeId, orderId);
 
@@ -57,7 +57,7 @@ public class StoreService {
         StoreEntity store = getStore(order.get().getStore());
         CustomerEntity customer = getCustomerFromDeliveryOrder(order);
 
-        return new StoreServiceDto.FindOrderDto(store, product, customer);
+        return new StoreServiceDto.FindOrderResponseDto(store, product, customer);
     }
 
     private ProductEntity getProductListFromDeliveryOrder(final Optional<DeliveryOrderEntity> order) {
@@ -110,7 +110,7 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public StoreServiceDto.FindStoreDto findStore(final long storeId) throws Exception {
+    public StoreServiceDto.FindStoreResponseDto findStore(final long storeId) throws Exception {
 
         log.info("{}", storeId);
 
@@ -122,7 +122,8 @@ public class StoreService {
 
         CustomerEntity customer = getCustomerFromStore(store);
         StoreEntity storeEntity = store.get();
-        return new StoreServiceDto.FindStoreDto(
+
+        return new StoreServiceDto.FindStoreResponseDto(
                 storeEntity.getId(),
                 storeEntity.getStoreName(),
                 storeEntity.getCategory(),

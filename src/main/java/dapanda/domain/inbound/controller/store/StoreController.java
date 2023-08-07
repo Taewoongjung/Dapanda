@@ -25,7 +25,7 @@ public class StoreController {
             @PathVariable final long storeId,
             @PathVariable final long productId,
             @RequestBody final WebRequest.OrderProductWebRequestV1 webRequestV1
-    ) {
+    ) throws Exception {
         log.info("{}", webRequestV1);
 
         storeService.order(new StoreServiceDto.OrderDto(
@@ -36,7 +36,7 @@ public class StoreController {
     }
 
     @GetMapping(value = "/stores/{storeId}/orders/{orderId}")
-    public ResponseEntity<StoreServiceDto.FindOrderDto> getOrder(
+    public ResponseEntity<StoreServiceDto.FindOrderResponseDto> getOrder(
             @PathVariable final long storeId,
             @PathVariable final long orderId) throws Exception{
         log.info("{} {}", storeId, orderId);
@@ -45,7 +45,7 @@ public class StoreController {
     }
 
     @GetMapping(value = "/stores/{storeId}")
-    public ResponseEntity<StoreServiceDto.FindStoreDto> getStore(
+    public ResponseEntity<StoreServiceDto.FindStoreResponseDto> getStore(
             @PathVariable final long storeId) throws Exception {
         log.info("{}", storeId);
 
