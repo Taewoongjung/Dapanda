@@ -1,4 +1,4 @@
-package dapanda.domain.common;
+package dapanda.domain.common.error;
 
 import lombok.Getter;
 
