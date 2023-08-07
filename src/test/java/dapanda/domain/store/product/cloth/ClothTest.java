@@ -1,6 +1,6 @@
 //package dapanda.domain.store.product.cloth;
 //
-//import dapanda.domain.common.InvalidInputException;
+//import dapanda.domain.common.error.InvalidInputException;
 //import org.junit.jupiter.api.DisplayName;
 //import org.junit.jupiter.api.Test;
 //
