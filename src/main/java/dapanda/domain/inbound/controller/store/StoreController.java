@@ -46,7 +46,7 @@ public class StoreController {
     }
 
     @GetMapping(value = "/stores/{storeId}")
-    public ResponseEntity<StoreServiceDto.FindStoreDto> getStore(@PathVariable final long storeId) {
+    public ResponseEntity<StoreServiceDto.FindStoreDto> getStore(@PathVariable final long storeId) throws Exception {
         log.info("{}", storeId);
 
         return ResponseEntity.status(HttpStatus.OK).body(storeService.findStore(storeId));

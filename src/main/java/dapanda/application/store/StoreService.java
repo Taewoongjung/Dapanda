@@ -1,6 +1,7 @@
 package dapanda.application.store;
 
-import dapanda.domain.common.NotFoundException;
+import dapanda.domain.common.error.InvalidInputException;
+import dapanda.domain.common.error.NotFoundException;
 import dapanda.domain.outbound.jpa.customer.CustomerEntity;
 import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.order.repository.DeliveryOrderJpaRepository;
@@ -19,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static dapanda.domain.common.ErrorType.NOT_FOUND_STORE_INFO;
+import static dapanda.domain.common.error.ErrorType.NOT_FOUND_STORE_INFO;
 
 @Service
 @Slf4j
@@ -86,18 +87,29 @@ public class StoreService {
     }
 
     @Transactional(readOnly = true)
-    public StoreServiceDto.FindStoreDto findStore(final long storeId) {
+    public StoreServiceDto.FindStoreDto findStore(final long storeId) throws Exception {
 
         log.info("{}", storeId);
 
         Optional<StoreEntity> store = storeRepository.findById(storeId);
 
-        CustomerEntity customer = getCustomerEntity(store.get().getCustomer());
+        CustomerEntity customer = getCustomerFromStore(store);
 
         return new StoreServiceDto.FindStoreDto(customer, store.get().getProducts());
     }
 
-    private CustomerEntity getCustomerEntity(CustomerEntity customer) {
+    private CustomerEntity getCustomerFromStore(final Optional<StoreEntity> store) {
+        CustomerEntity customer = null;
+        if (store.isPresent()) {
+            customer = mapCustomerEntity(store.get().getCustomer());
+        } else {
+            throw new InvalidInputException(NOT_FOUND_STORE_INFO);
+        }
+
+        return customer;
+    }
+
+    private CustomerEntity mapCustomerEntity(final CustomerEntity customer) {
         return CustomerEntity.of(
                 customer.getId(),
                 customer.getName(),
