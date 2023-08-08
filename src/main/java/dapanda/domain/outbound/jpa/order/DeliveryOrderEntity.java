@@ -6,6 +6,7 @@ import dapanda.domain.outbound.jpa.customer.CustomerEntity;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import dapanda.domain.outbound.jpa.store.product.ProductEntity;
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,24 +36,31 @@ public class DeliveryOrderEntity extends BaseEntity {
     @JoinColumn(name = "customer_id", referencedColumnName = "id")
     private CustomerEntity customer;
 
-
     private int amount;
 
     private DeliveryOrderEntity(
             final long id,
             final StoreEntity store,
-            final ProductEntity product
+            final ProductEntity product,
+            final CustomerEntity customer,
+            final int amount
     ) {
+        super(LocalDateTime.now(), LocalDateTime.now());
+
         this.id = id;
         this.store = store;
         this.product = product;
+        this.customer = customer;
+        this.amount = amount;
     }
 
     public static DeliveryOrderEntity of(
             final long id,
             final StoreEntity store,
-            final ProductEntity product
+            final ProductEntity product,
+            final CustomerEntity customer,
+            final int amount
     ) {
-        return new DeliveryOrderEntity(id, store, product);
+        return new DeliveryOrderEntity(id, store, product, customer, amount);
     }
 }

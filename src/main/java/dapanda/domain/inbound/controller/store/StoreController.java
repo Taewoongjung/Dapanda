@@ -21,18 +21,18 @@ public class StoreController {
     private final StoreService storeService;
 
     @PostMapping(value = "/stores/{storeId}/products/{productId}")
-    public void order(
+    public ResponseEntity<Boolean> order(
             @PathVariable final long storeId,
             @PathVariable final long productId,
             @RequestBody final WebRequest.OrderProductWebRequestV1 webRequestV1
     ) throws Exception {
         log.info("{}", webRequestV1);
 
-        storeService.order(new StoreServiceDto.OrderDto(
+        return ResponseEntity.status(HttpStatus.OK).body(storeService.order(new StoreServiceDto.OrderDto(
                 storeId,
                 productId,
                 webRequestV1.orderAmount()
-        ));
+        )));
     }
 
     @GetMapping(value = "/stores/{storeId}/orders/{orderId}")

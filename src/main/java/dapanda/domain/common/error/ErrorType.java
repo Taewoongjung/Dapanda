@@ -21,7 +21,8 @@ public enum ErrorType {
 
     NOT_FOUND_STORE_INFO(4001, "가게 정보가 없습니다."),
     NOT_FOUND_PRODUCT_INFO(4002, "상품 정보가 없습니다."),
-    NOT_FOUND_ORDER_INFO(4003, "주문 정보가 없습니다.")
+    NOT_FOUND_ORDER_INFO(4003, "주문 정보가 없습니다."),
+    NOT_FOUND_CUSTOMER_INFO(4004, "고객 정보가 없습니다.")
     ;
 
     private final int code;

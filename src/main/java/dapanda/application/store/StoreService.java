@@ -3,12 +3,14 @@ package dapanda.application.store;
 import dapanda.domain.common.error.InvalidInputException;
 import dapanda.domain.common.error.NotFoundException;
 import dapanda.domain.outbound.jpa.customer.CustomerEntity;
+import dapanda.domain.outbound.jpa.customer.repository.CustomerJpaRepository;
 import dapanda.domain.outbound.jpa.order.DeliveryOrderEntity;
 import dapanda.domain.outbound.jpa.order.repository.DeliveryOrderJpaRepository;
 import dapanda.domain.outbound.jpa.store.StoreEntity;
 import dapanda.domain.outbound.jpa.store.product.ProductEntity;
 import dapanda.domain.outbound.jpa.store.product.cloth.ClothEntity;
 import dapanda.domain.outbound.jpa.store.product.food.FoodEntity;
+import dapanda.domain.outbound.jpa.store.product.repository.ProductJpaRepository;
 import dapanda.domain.outbound.jpa.store.repository.StoreJpaRepository;
 import dapanda.application.store.dto.StoreServiceDto;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+import static dapanda.domain.common.error.ErrorType.NOT_FOUND_CUSTOMER_INFO;
 import static dapanda.domain.common.error.ErrorType.NOT_FOUND_ORDER_INFO;
+import static dapanda.domain.common.error.ErrorType.NOT_FOUND_PRODUCT_INFO;
 import static dapanda.domain.common.error.ErrorType.NOT_FOUND_STORE_INFO;
 
 @Service
@@ -28,19 +32,33 @@ public class StoreService {
 
     private final StoreJpaRepository storeRepository;
     private final DeliveryOrderJpaRepository orderRepository;
+    private final ProductJpaRepository productRepository;
+    private final CustomerJpaRepository customerRepository;
 
     @Transactional
-    public void order(final StoreServiceDto.OrderDto dto) throws Exception {
+    public boolean order(final StoreServiceDto.OrderDto dto) throws Exception {
 
         StoreEntity store = getStoreInfoById(dto.storeId());
+        ProductEntity product = getProductInfoById(dto.productId());
+        CustomerEntity customer = getCustomerInfoById(1L);
 
-
+        orderRepository.save(DeliveryOrderEntity.of(0, store, product, customer, dto.orderAmount()));
+        return true;
     }
 
     private StoreEntity getStoreInfoById(final long storeId) {
         return storeRepository.findById(storeId)
                 .orElseThrow(() -> new NotFoundException(NOT_FOUND_STORE_INFO));
     }
+    private ProductEntity getProductInfoById(final long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_PRODUCT_INFO));
+    }
+    CustomerEntity getCustomerInfoById(final long customerId) {
+        return customerRepository.findById(customerId)
+                .orElseThrow(() -> new NotFoundException(NOT_FOUND_CUSTOMER_INFO));
+    }
+
 
     @Transactional(readOnly = true)
     public StoreServiceDto.FindOrderResponseDto findOrder(final long storeId, final long orderId) throws Exception{
