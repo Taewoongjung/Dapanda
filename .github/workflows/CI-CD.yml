@@ -24,6 +24,8 @@ jobs:
         distribution: 'temurin'
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
+      with:
+        version: v0.7.0
       
     - name: make application.properties
       if: true
