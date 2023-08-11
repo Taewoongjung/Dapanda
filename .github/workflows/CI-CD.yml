@@ -62,14 +62,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: connect ssh
-        uses: appleboy/ssh-action@master
+        uses: fifsky/ssh-action@master
         with:
           host: ${{ secrets.DEPLOYMENT_HOST }}
           key: ${{ secrets.DEPLOYMENT_SSH_KEY }}
           username: ${{ secrets.DEPLOYMENT_USERNAME }}
           password: ${{ secrets.DEPLOYMENT_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_PORT }}
-          script: |
+          command: |
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
