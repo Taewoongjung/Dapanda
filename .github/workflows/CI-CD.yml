@@ -10,79 +10,47 @@ permissions:
   contents: read
 
 jobs:
-  build_dockerpush:
+  push_to_registry:
+    name: Push to ncp container registry
     runs-on: ubuntu-latest
-    env:
-      APPLICATION: ${{ secrets.APPLICATION }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v2
-      with:
-        version: v0.7.0
-      
-    - name: make application.properties
-      if: true
-      run: |
-        touch ./src/main/resources/application.properties
-        echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
-      
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Login to NCP Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.NCP_CONTAINER_REGISTRY }}
+          username: ${{ secrets.NCP_ACCESS_KEY }}
+          password: ${{ secrets.NCP_SECRET_KEY }}
+      - name: build and push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name:latest
+          cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/prv-frontend:latest
+          cache-to: type=inline
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
 
-    - name: Login to NCP Container Registry
-      uses: docker/login-action@v2
-      with:
-        registry: ${{ secrets.NCP_CONTAINER_REGISTRY }}
-        username: ${{ secrets.NCP_ACCESS_KEY }}
-        password: ${{ secrets.NCP_SECRET_KEY }} 
-
-    - name: build and push
-      uses: docker/build-push-action@v3
-      with:
-        context: .
-        file: ./Dockerfile
-        push: true
-        tags: ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name:latest
-        cache-from: type=registry,ref=${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name:latest
-        cache-to: type=inline
-
-
-  pull_deploy:
+  pull_from_registry:
     name: Connect server ssh and pull from container registry
-    needs: build_dockerpush
+    needs: push_to_registry
     runs-on: ubuntu-latest
     steps:
       - name: connect ssh
-        uses: appleboy/ssh-action@v1.0.0
+        uses: appleboy/ssh-action@master
         with:
-          host: 101.101.163.112
-          username: ${{ secrets.NCP_ACCESS_KEY }}
-          password: ${{ secrets.NCP_SECRET_KEY }}
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          username:
+          password: ${{ secrets.DEV_PASSWORD }}
           port: ${{ secrets.DEPLOYMENT_PORT }}
           script: |
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
-            docker run -d -p 8080:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
+            docker run -d -p 3000:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker image prune -f
-#          script: |
-#            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
-#            docker stop $(docker ps -a -q)
-#            docker rm $(docker ps -a -q)
-#            docker run -d -p 8080:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
-#            docker image prune -f
-#          host: 101.101.163.112
-#          key: ${{ secrets.DEPLOYMENT_SSH_KEY }}
-#          user: ${{ secrets.NCP_ACCESS_KEY }}
-#          pass: ${{ secrets.NCP_SECRET_KEY }}
-#          port: 10021
-#          args: -tt -vvv
