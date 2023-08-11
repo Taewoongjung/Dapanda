@@ -75,14 +75,15 @@ jobs:
 #            docker rm $(docker ps -a -q)
 #            docker run -d -p 8080:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
 #            docker image prune -f
-          host: ${{ secrets.DEPLOYMENT_HOST }}
-          key: ${{ secrets.DEPLOYMENT_SSH_KEY }}
-          user: ${{ secrets.DEPLOYMENT_USERNAME }}
-          pass: ${{ secrets.DEPLOYMENT_PASSWORD }}
-          port: ${{ secrets.DEPLOYMENT_PORT }}
           script: |
             docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker stop $(docker ps -a -q)
             docker rm $(docker ps -a -q)
             docker run -d -p 8080:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker image prune -f
+          host: ${{ secrets.DEPLOYMENT_HOST }}
+          key: ${{ secrets.DEPLOYMENT_SSH_KEY }}
+          user: ${{ secrets.DEPLOYMENT_USERNAME }}
+          pass: ${{ secrets.DEPLOYMENT_PASSWORD }}
+          port: ${{ secrets.DEPLOYMENT_PORT }}
+          args: -tt -vvv
