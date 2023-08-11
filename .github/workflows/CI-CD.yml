@@ -82,7 +82,6 @@ jobs:
             docker run -d -p 8080:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
             docker image prune -f
           host: 101.101.163.112
-          key: ${{ secrets.DEPLOYMENT_SSH_KEY }}
           user: ${{ secrets.NCP_ACCESS_KEY }}
           pass: ${{ secrets.NCP_SECRET_KEY }}
           port: 10021
