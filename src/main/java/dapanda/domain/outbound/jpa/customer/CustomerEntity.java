@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Entity
-@Table(name = "customer")
+//@Entity
+//@Table(name = "customer")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CustomerEntity extends BaseEntity {
 

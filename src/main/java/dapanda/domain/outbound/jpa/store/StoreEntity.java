@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@Entity
-@Table(name = "store")
+//@Entity
+//@Table(name = "store")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Convert(converter = StoreCategoryTypeConverter.class, attributeName = "category")
 public class StoreEntity extends BaseEntity {

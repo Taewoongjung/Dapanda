@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Entity
-@Table(name = "product")
+//@Entity
+//@Table(name = "product")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductEntity extends BaseEntity {
 

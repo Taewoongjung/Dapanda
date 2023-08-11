@@ -1,6 +1,5 @@
 package dapanda.application.store;
 
-import dapanda.domain.outbound.jpa.store.repository.StoreJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
