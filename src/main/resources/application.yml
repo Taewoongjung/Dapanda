@@ -22,3 +22,10 @@ spring:
     password: 1234567
     url: jdbc:mysql://localhost:3309/dapanda?useSSL=false&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: health
