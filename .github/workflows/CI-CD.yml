@@ -62,7 +62,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: connect ssh
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@0.1.4
         with:
           host: ${{ secrets.DEPLOYMENT_HOST }}
           username: ${{ secrets.DEPLOYMENT_USERNAME }}
