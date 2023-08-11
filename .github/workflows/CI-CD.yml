@@ -65,7 +65,6 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           host: 101.101.163.112
-          key: G5Pn%JJgLgR2ai
           username: ${{ secrets.NCP_ACCESS_KEY }}
           password: ${{ secrets.NCP_SECRET_KEY }}
           port: ${{ secrets.DEPLOYMENT_PORT }}
