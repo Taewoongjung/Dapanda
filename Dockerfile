@@ -1,5 +1,5 @@
 FROM openjdk:17
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-COPY build/libs/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+WORKDIR /usr/src/app
+ARG JAR_PATH=./build/libs
+COPY ${JAR_PATH}/dapanda-0.0.1-SNAPSHOT.jar ${JAR_PATH}/dapanda-0.0.1-SNAPSHOT.jar
+CMD ["java","-jar","./build/libs/dapanda-0.0.1-SNAPSHOT.jar"]
