@@ -1,4 +1,4 @@
-name: Java CI-CD with Gradle
+name: Java CI with Gradle
 
 on:
   push:
@@ -35,22 +35,3 @@ jobs:
           cache-to: type=inline
           secrets: |
             GIT_AUTH_TOKEN=${{ secrets.GIT_TOKEN }}
-
-  pull_from_registry:
-    name: Connect server ssh and pull from container registry
-    needs: push_to_registry
-    runs-on: ubuntu-latest
-    steps:
-      - name: connect ssh
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.DEPLOYMENT_HOST }}
-          username:
-          key:  ${{ secrets.DEV_PASSWORD }}
-          port: ${{ secrets.DEPLOYMENT_PORT }}
-          script: |
-            docker pull ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
-            docker stop $(docker ps -a -q)
-            docker rm $(docker ps -a -q)
-            docker run -d -p 3000:80 ${{ secrets.NCP_CONTAINER_REGISTRY }}/tag-name
-            docker image prune -f
