@@ -5,8 +5,9 @@ COPY build.gradle .
 COPY settings.gradle .
 COPY src src
 RUN chmod +x ./gradlew
+RUN chmod +x ./gradlew
+RUN ./gradlew wrapper --gradle-version 7.6.1
 RUN ./gradlew bootJar
-RUN ./gradlew target/dapanda-0.0.1-SNAPSHOT.jar
 
 FROM openjdk:17
 COPY --from=builder /build/libs/app.jar /app.jar
