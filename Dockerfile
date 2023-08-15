@@ -8,6 +8,6 @@ RUN chmod +x ./gradlew
 RUN ./gradlew bootJar
 
 FROM openjdk:17
-COPY --from=builder build/libs
+COPY --from=builder /build/libs/app.jar /app.jar
 
 ENTRYPOINT ["java","-jar","/app.jar"]
